@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserRequest;
-use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use App\Http\Requests\ProductCategoryRequest;
+use App\Models\ProductCategory;
 use Yajra\DataTables\Facades\DataTables;
 
-class UserController extends Controller
+class ProductCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,28 +18,30 @@ class UserController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            // $query = User::query();
-            $query = User::latest()->get();
+            $query = ProductCategory::query();
 
             return DataTables::of($query)
                 ->addColumn('action', function ($item) {
-                    return
-                    '<a class="inline-block border border-gray-700 bg-gray-700 text-white rounded-md px-2 py-1 m-1 transition duration-500 ease select-none hover:bg-gray-800 focus:outline-none focus:shadow-outline" 
-                    href="' . route('dashboard.user.edit', $item->id) . '">
-                    Edit
-                    </a>
-                    <form class="inline-block" action="' . route('dashboard.user.destroy', $item->id) . '" method="POST">
+                    return '
+                        <a class="inline-block border border-gray-700 bg-gray-700 text-white rounded-md px-2 py-1 m-1 transition duration-500 ease select-none hover:bg-gray-800 focus:outline-none focus:shadow-outline" 
+                            href="' . route('dashboard.category.edit', $item->id) . '">
+                            Edit
+                        </a>
+                        <form class="inline-block" action="' . route('dashboard.category.destroy', $item->id) . '" method="POST">
                         <button class="border border-red-500 bg-red-500 text-white rounded-md px-2 py-1 m-2 transition duration-500 ease select-none hover:bg-red-600 focus:outline-none focus:shadow-outline" >
                             Hapus
                         </button>
                             ' . method_field('delete') . csrf_field() . '
-                    </form>';
+                        </form>';
+                })
+                ->editColumn('price', function ($item) {
+                    return number_format($item->price);
                 })
                 ->rawColumns(['action'])
                 ->make();
         }
-     
-        return view('pages.user.index');
+
+        return view('pages.category.index');
     }
 
     /**
@@ -48,7 +51,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        // 
+        return view('pages.category.create');
     }
 
     /**
@@ -57,9 +60,13 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductCategoryRequest $request)
     {
-        //
+        $data = $request->all();
+
+        ProductCategory::create($data);
+
+        return redirect()->route('dashboard.category.index');
     }
 
     /**
@@ -79,9 +86,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit(ProductCategory $category)
     {
-        return view('pages.user.edit', ['item' => $user]);
+        return view('pages.category.edit',[
+            'item' => $category
+        ]);
     }
 
     /**
@@ -91,13 +100,13 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UserRequest $request, User $user)
+    public function update(ProductCategoryRequest $request, ProductCategory $category)
     {
         $data = $request->all();
-        
-        $user->update($data);
 
-        return redirect()->route('dashboard.user.index');
+        $category->update($data);
+
+        return redirect()->route('dashboard.category.index');
     }
 
     /**
@@ -106,10 +115,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy(ProductCategory $category)
     {
-        $user->delete();
+        $category->delete();
 
-        return redirect()->route('dashboard.user.index');
+        return redirect()->route('dashboard.category.index');
     }
 }
