@@ -28,7 +28,7 @@ class CheckoutRequest extends FormRequest
             'name' => 'required',
             'email' => 'required|email',
             'address' => 'required',
-            'phone_number' => 'required'
+            'phone' => 'required'
         ];
     }
 }

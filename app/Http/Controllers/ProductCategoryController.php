@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Http\Requests\ProductCategoryRequest;
 use App\Models\ProductCategory;
@@ -41,7 +40,7 @@ class ProductCategoryController extends Controller
                 ->make();
         }
 
-        return view('pages.category.index');
+        return view('pages.dashboard.category.index');
     }
 
     /**
@@ -51,14 +50,14 @@ class ProductCategoryController extends Controller
      */
     public function create()
     {
-        return view('pages.category.create');
+        return view('pages.dashboard.category.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(ProductCategoryRequest $request)
     {
@@ -72,10 +71,10 @@ class ProductCategoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  \App\Models\ProductCategory  $category
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
      */
-    public function show($id)
+    public function show(ProductCategory $category)
     {
         //
     }
@@ -83,12 +82,12 @@ class ProductCategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  \App\Models\ProductCategory  $category
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
      */
     public function edit(ProductCategory $category)
     {
-        return view('pages.category.edit',[
+        return view('pages.dashboard.category.edit',[
             'item' => $category
         ]);
     }
@@ -97,8 +96,8 @@ class ProductCategoryController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  \App\Models\ProductCategory  $category
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(ProductCategoryRequest $request, ProductCategory $category)
     {
@@ -112,8 +111,8 @@ class ProductCategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  \App\Models\ProductCategory  $category
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(ProductCategory $category)
     {

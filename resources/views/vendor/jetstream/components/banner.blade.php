@@ -2,7 +2,6 @@
 
 <div x-data="{{ json_encode(['show' => true, 'style' => $style, 'message' => $message]) }}"
             :class="{ 'bg-indigo-500': style == 'success', 'bg-red-700': style == 'danger' }"
-            style="display: none;"
             x-show="show && message"
             x-init="
                 document.addEventListener('banner-message', event => {
@@ -26,7 +25,7 @@
             <div class="flex-shrink-0 sm:ml-3">
                 <button
                     type="button"
-                    class="-mr-1 flex p-2 rounded-md focus:outline-none sm:-mr-2 transition"
+                    class="-mr-1 flex p-2 rounded-md focus:outline-none sm:-mr-2 transition ease-in-out duration-150"
                     :class="{ 'hover:bg-indigo-600 focus:bg-indigo-600': style == 'success', 'hover:bg-red-600 focus:bg-red-600': style == 'danger' }"
                     aria-label="Dismiss"
                     x-on:click="show = false">

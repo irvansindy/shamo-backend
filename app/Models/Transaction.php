@@ -11,21 +11,16 @@ class Transaction extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'user_id',
-        'address',
-        'total_price',
-        'shipping_price',
-        'status',
-        'payment_method'
+        'users_id', 'address', 'payment', 'total_price', 'shipping_price', 'status'
     ];
-
+    
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(User::class, 'users_id', 'id');
     }
 
-    public function transactionDetail()
+    public function items()
     {
-        return $this->hasMany(TransactionDetail::class,'transaction_id', 'id');
+        return $this->hasMany(TransactionItem::class, 'transactions_id', 'id');
     }
 }

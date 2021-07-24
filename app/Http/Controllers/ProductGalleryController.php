@@ -41,9 +41,9 @@ class ProductGalleryController extends Controller
                 ->make();
         }
 
-        return view('pages.gallery.index', compact('product'));
+        return view('pages.dashboard.gallery.index', compact('product'));
     }
-
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -51,7 +51,7 @@ class ProductGalleryController extends Controller
      */
     public function create(Product $product)
     {
-        return view('pages.gallery.create', compact('product'));
+        return view('pages.dashboard.gallery.create', compact('product'));
     }
 
     /**
@@ -82,10 +82,10 @@ class ProductGalleryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\ProductGallery  $gallery
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(ProductGallery $gallery)
     {
         //
     }
@@ -93,10 +93,10 @@ class ProductGalleryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\ProductGallery  $gallery
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(ProductGallery $gallery)
     {
         //
     }
@@ -105,10 +105,10 @@ class ProductGalleryController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\ProductGallery  $gallery
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProductGalleryRequest $request, ProductGallery $gallery)
     {
         //
     }
@@ -116,7 +116,7 @@ class ProductGalleryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\ProductGallery  $productGallery
      * @return \Illuminate\Http\Response
      */
     public function destroy(ProductGallery $gallery)

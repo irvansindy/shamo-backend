@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
 use App\Models\Transaction;
-use App\Models\TransactionDetail;
+use App\Models\TransactionItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,30 +19,25 @@ class TransactionController extends Controller
 
         if($id)
         {
-            $transaction = Transaction::with('transactionDetail.product')->find($id);
+            $transaction = Transaction::with(['items.product'])->find($id);
 
             if($transaction)
-            {
                 return ResponseFormatter::success(
                     $transaction,
-                    'Data Transaction berhasil diambil'
+                    'Data transaksi berhasil diambil'
                 );
-            }
-            else {
-                return ResponseFormatter::success(
+            else
+                return ResponseFormatter::error(
                     null,
-                    'Data Transaction tidak ada',
+                    'Data transaksi tidak ada',
                     404
                 );
-            }
         }
 
-        $transaction = Transaction::with('transactionDetail');
+        $transaction = Transaction::with(['items.product'])->where('users_id', Auth::user()->id);
 
         if($status)
-        {
-            $status->where('status',$status);
-        }
+            $transaction->where('status', $status);
 
         return ResponseFormatter::success(
             $transaction->paginate($limit),
@@ -54,7 +49,6 @@ class TransactionController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-
     public function checkout(Request $request)
     {
         $request->validate([
@@ -66,23 +60,22 @@ class TransactionController extends Controller
         ]);
 
         $transaction = Transaction::create([
-            'user_id' => Auth::user()->id,
+            'users_id' => Auth::user()->id,
             'address' => $request->address,
             'total_price' => $request->total_price,
             'shipping_price' => $request->shipping_price,
             'status' => $request->status
         ]);
-
+        
         foreach ($request->items as $product) {
-            TransactionDetail::create([
-                'user_id' => Auth::user()->id,
-                'product_id' => $product['id'],
-                'transaction_id' => $transaction->id,
+            TransactionItem::create([
+                'users_id' => Auth::user()->id,
+                'products_id' => $product['id'],
+                'transactions_id' => $transaction->id,
                 'quantity' => $product['quantity']
             ]);
         }
 
-        return ResponseFormatter::success($transaction->load('transactionDetail.product'), 'Transaksi berhasil');
-
+        return ResponseFormatter::success($transaction->load('items.product'), 'Transaksi berhasil');
     }
 }

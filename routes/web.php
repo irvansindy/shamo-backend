@@ -3,8 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\MyTransactionController;
 use App\Http\Controllers\ProductGalleryController;
 use App\Http\Controllers\ProductCategoryController;
 
@@ -19,14 +21,15 @@ use App\Http\Controllers\ProductCategoryController;
 |
 */
 
-Route::get('/', function () {
+route::get('/', function(){
     return view('welcome');
 });
 
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
+   
     Route::name('dashboard.')->prefix('dashboard')->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('index');
-    
+
         Route::middleware(['admin'])->group(function () {
             Route::resource('product', ProductController::class);
             Route::resource('category', ProductCategoryController::class);

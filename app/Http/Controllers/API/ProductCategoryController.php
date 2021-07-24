@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\API;
 
+use Illuminate\Http\Request;
+use App\Models\ProductCategory;
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
-use App\Models\ProductCategory;
-use Illuminate\Http\Request;
 
 class ProductCategoryController extends Controller
 {
@@ -18,38 +18,32 @@ class ProductCategoryController extends Controller
 
         if($id)
         {
-            $category = ProductCategory::with('products')->find($id);
+            $category = ProductCategory::with(['products'])->find($id);
 
             if($category)
-            {
                 return ResponseFormatter::success(
                     $category,
-                    'Data product berhasil ditemukan'
+                    'Data produk berhasil diambil'
                 );
-            }
-            else{
+            else
                 return ResponseFormatter::error(
                     null,
-                    'Data product tidak ada'
+                    'Data kategori produk tidak ada',
+                    404
                 );
-            }
         }
 
         $category = ProductCategory::query();
 
         if($name)
-        {
-            $category->where('name', 'like', '%'.$name.'%');
-        }
+            $category->where('name', 'like', '%' . $name . '%');
 
         if($show_product)
-        {
             $category->with('products');
-        }
 
         return ResponseFormatter::success(
             $category->paginate($limit),
-            'Data Category Product berhasil diambil'
+            'Data list kategori produk berhasil diambil'
         );
     }
 }

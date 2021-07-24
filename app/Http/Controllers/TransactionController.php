@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
+use Illuminate\Support\Str;
 use App\Http\Requests\TransactionRequest;
-use App\Models\TransactionDetail;
+use App\Models\TransactionItem;
 use Yajra\DataTables\Facades\DataTables;
 
 class TransactionController extends Controller
@@ -38,7 +39,7 @@ class TransactionController extends Controller
                 ->make();
         }
 
-        return view('pages.transaction.index');
+        return view('pages.dashboard.transaction.index');
     }
 
     /**
@@ -71,7 +72,7 @@ class TransactionController extends Controller
     public function show(Transaction $transaction)
     {
         if (request()->ajax()) {
-            $query = TransactionDetail::with(['product'])->where('transactions_id', $transaction->id);
+            $query = TransactionItem::with(['product'])->where('transactions_id', $transaction->id);
 
             return DataTables::of($query)
                 ->editColumn('product.price', function ($item) {
@@ -80,7 +81,7 @@ class TransactionController extends Controller
                 ->make();
         }
 
-        return view('pages.transaction.show', compact('transaction'));
+        return view('pages.dashboard.transaction.show', compact('transaction'));
     }
 
     /**
@@ -91,7 +92,7 @@ class TransactionController extends Controller
      */
     public function edit(Transaction $transaction)
     {
-        return view('pages.transaction.edit',[
+        return view('pages.dashboard.transaction.edit',[
             'item' => $transaction
         ]);
     }

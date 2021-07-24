@@ -29,6 +29,7 @@
                 border-color: #edf2f7; 		/*border-gray-200*/
                 background-color: #edf2f7; 	/*bg-gray-200*/
             }
+
             /*Row Hover*/
             table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {
                 background-color: #ebf4ff;	/*bg-indigo-100*/
@@ -50,6 +51,7 @@
                 background: #667eea !important;		/*bg-indigo-500*/
                 border: 1px solid transparent;		/*border border-transparent*/
             }
+
             /*Pagination Buttons - Hover */
             .dataTables_wrapper .dataTables_paginate .paginate_button:hover		{
                 color: #fff !important;				/*text-white*/
@@ -71,6 +73,7 @@
             table.dataTable.dtr-inline.collapsed>tbody>tr>td:first-child:before, table.dataTable.dtr-inline.collapsed>tbody>tr>th:first-child:before {
                 background-color: #667eea !important; /*bg-indigo-500*/
             }
+
         </style>
 
         @livewireStyles
