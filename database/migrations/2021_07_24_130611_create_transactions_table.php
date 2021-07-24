@@ -15,7 +15,6 @@ class CreateTransactionsTable extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-
             $table->bigInteger('users_id');
 
             $table->text('address')->nullable();
